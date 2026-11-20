@@ -379,7 +379,7 @@ def pico_hippo(x, y, c, bg):
 # Page layout
 # --------------------------------------------------------------------------
 
-def card(x, y, kicker, head_lines, dek_lines, pico):
+def card(x, y, kicker, head_lines, dek_lines, pico, page_tag):
     outline_rect(x, y, 320, 170, INK, 1)
     draw_text(x + 12, y + 12, kicker, 1, CRIMSON)
     rect(x + 12, y + 22, text_w(kicker, 1), 2, CRIMSON)
@@ -388,10 +388,13 @@ def card(x, y, kicker, head_lines, dek_lines, pico):
     for ln in head_lines:
         draw_text(x + 66, yy, ln, 2, INK)
         yy += 15
-    yy = y + 94
+    for rx in range(x + 12, x + 308, 6):          # dotted hairline above dek
+        rect(rx, y + 88, 3, 1, INK)
+    yy = y + 96
     for ln in dek_lines:
         draw_text(x + 12, yy, ln, 1, BLUE)
         yy += 11
+    draw_text(x + 308 - text_w(page_tag, 1), y + 152, page_tag, 1, BLUE)
 
 
 def build():
@@ -423,44 +426,46 @@ def build():
         ("COURT",
          ["WORLD COURT: MYANMAR", "GUILTY OF GENOCIDE"],
          ["FIRST-EVER GENOCIDE RULING BY THE WORLD", "COURT, OVER THE ROHINGYA PEOPLE."],
-         pico_scales),
+         pico_scales, "FULL REPORT P.02"),
         ("WORLD",
          ["ISRAEL PUSHES PAST", "GAZA 'YELLOW LINE'"],
-         ["TANKS SEIZE TWO-THIRDS OF GAZA; THOUSANDS", "FLEE. DR. ABU SAFIYA HELD LONGER."],
-         pico_tank),
+         ["TANKS AND BULLDOZERS PUSHED PAST THE", "CEASEFIRE 'YELLOW LINE'; THOUSANDS FLED",
+          "AGAIN. ISRAEL NOW HOLDS ABOUT TWO-THIRDS", "OF GAZA. DR. ABU SAFIYA HELD LONGER."],
+         pico_tank, "FULL REPORT P.03"),
         ("WORLD",
          ["KERCH BRIDGE HIT", "FOR A THIRD TIME"],
-         ["RAIL TRAFFIC HALTED ON THE CRIMEA LINK;", "PUTIN VOWS A 'PAINFUL' RESPONSE."],
-         pico_bridge),
+         ["RAIL TRAFFIC HALTED ON THE CRIMEA LINK;", "PUTIN VOWS A 'PAINFUL' RESPONSE. US ENVOY",
+          "KUSHNER SAID RUSSIA IS 'COMFORTABLE' WITH", "NATO-LIKE GUARANTEES FOR UKRAINE."],
+         pico_bridge, "FULL REPORT P.04"),
         ("BUSINESS",
          ["ANTHROPIC SOARS 17%", "IN NASDAQ DEBUT"],
          ["CLOSES AT $97.17 ON A VALUE NEAR $2", "TRILLION, TOPPING SPACEX'S JUNE LISTING."],
-         pico_stock),
+         pico_stock, "FULL REPORT P.05"),
         ("MIDEAST",
          ["DRONE HITS RIYADH'S", "TALLEST TOWER"],
          ["HOUTHI ATTACK HIT THE TOWER HOUSING", "SAUDI ARABIA'S SOVEREIGN-WEALTH FUND."],
-         pico_tower),
+         pico_tower, "FULL REPORT P.06"),
         ("US",
          ["TRUMP PARDONS", "BASEBALL LEGEND", "PETE ROSE"],
          ["THE POSTHUMOUS PARDON LIFTS HIS", "LIFETIME BAN FOR BETTING."],
-         pico_baseball),
+         pico_baseball, "FULL REPORT P.07"),
         ("SPORT",
          ["LYON 2-0 ARSENAL", "IN THE WOMEN'S", "CHAMPIONS LEAGUE"],
          ["THE FRENCH SIDE WIN 2-0 IN THE WOMEN'S", "CHAMPIONS LEAGUE MEETING."],
-         pico_football),
+         pico_football, "FULL REPORT P.08"),
         ("TECH",
          ["CALIFORNIA PROBES", "NVIDIA OVER CHINA", "AI CHIPS"],
          ["STATE OFFICIALS OPEN AN INQUIRY INTO", "AI CHIPS SOLD INTO CHINA."],
-         pico_chip),
+         pico_chip, "FULL REPORT P.09"),
         ("SCIENCE",
          ["GOOGLE'S 105-QUBIT", "GAME YOU CANNOT WIN"],
          ["RESEARCHERS SHOW QUANTUM CONTEXTUALITY", "ON A 105-QUBIT PROCESSOR."],
-         pico_atom),
+         pico_atom, "FULL REPORT P.10"),
     ]
     xs = (24, 352, 680)
     ys = (306, 486, 666)
-    for i, (k, hl, dl, p) in enumerate(cards):
-        card(xs[i % 3], ys[i // 3], k, hl, dl, p)
+    for i, (k, hl, dl, p, pt) in enumerate(cards):
+        card(xs[i % 3], ys[i // 3], k, hl, dl, p, pt)
 
     # ---- Footer ticker --------------------------------------------------
     rect(24, 848, 976, 2, INK)
